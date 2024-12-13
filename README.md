@@ -1,5 +1,5 @@
 # movieflix
-Practice project that leavarages the IMDB api for movies , created for the sake of practicing with API
+Practice project that leverage the IMDB API for movies, created for the sake of practicing with API
 
 ## Home page
 ![My Image](https://github.com/pulemojatau/movieflix/blob/main/home.jpg)
