@@ -1,0 +1,6 @@
+class Settings{
+
+  static const String api_key = "8d73b7cd5d292b3db41bc288e77384fb";
+  static const String api_token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZDczYjdjZDVkMjkyYjNkYjQxYmMyODhlNzczODRmYiIsInN1YiI6IjY2MmM3ODExMDI4ZjE0MDEyMjY4NDk1NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Snv7fqP1Sxzw_F9gpgfpRq9EB8T_ihe7uOxbckEX9ws";
+
+}
