@@ -77,13 +77,45 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('TMDb Authentication')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: _authenticateUser,
-          child: Text('Login with TMDb'),
+      appBar: AppBar(
+        title: Text('TMDb Authentication'),
+        backgroundColor: Colors.transparent, // Make AppBar background transparent
+        elevation: 0, // Remove shadow
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0x02c6341a), // Start color
+                Color(0xd6a80e0e), // End color
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0x02c6341a), // Start color
+              Color(0xd6a80e0e), // End color
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: ElevatedButton(
+            onPressed: _authenticateUser,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.yellow, // Set your desired background color here
+            ),
+            child: const Text('Login with TMDb'),
+          ),
         ),
       ),
     );
   }
+
 }

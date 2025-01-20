@@ -422,306 +422,317 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white10,
+        backgroundColor: Colors.grey,
+
       ),
       body:  isLoadingTrending
           ? Center(child: CircularProgressIndicator())
           : trendingMovies.isEmpty
           ? Center(child: Text("No movies available"))
           : SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Carousel Slider
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  height: 270,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeCenterPage: true,
-                  scrollDirection: Axis.horizontal,
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient:
+            //it has begin , end , stops , for controlling how the gradient color allighb
+            LinearGradient(
+              colors: [Color(0x02c6341a), Color(0xd6a80e0e)],
+            ),
+          ),
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Carousel Slider
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 270,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 0.8,
+                    initialPage: 0,
+                    enableInfiniteScroll: true,
+                    reverse: false,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enlargeCenterPage: true,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                  items: trendingMovies.map((movie) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return GestureDetector(
+                          onTap: () {
+                            // Navigate to the Movie Details Screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MovieDetails(movie: movie), // Pass movie data
+                              ),
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://image.tmdb.org/t/p/w500${movie.posterPath}'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                height: 180,
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                movie.title,
+                                style: TextStyle(
+                                    fontSize: 10.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 4),
+                              RatingBarIndicator(
+                                rating: movie.voteAverage / 2, // Assuming the rating is out of 10, scale it to 5
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                direction: Axis.horizontal,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
                 ),
-                items: trendingMovies.map((movie) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return GestureDetector(
-                        onTap: () {
-                          // Navigate to the Movie Details Screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MovieDetails(movie: movie), // Pass movie data
-                            ),
-                          );
-                        },
+              ),
+
+              // Top Rated Movies
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Top Rated',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 220, // Increased height to accommodate image, title, and rating
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: topRatedMovies.length,
+                  itemBuilder: (context, index) {
+                    final movie = topRatedMovies[index]; // Store movie object for easy access
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to the MovieDetailsPage when tapped
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MovieDetails(movie: movie),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 120,
+                        margin: EdgeInsets.all(8.0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
+                              height: 120,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                      'https://image.tmdb.org/t/p/w500${movie.posterPath}'),
+                                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                  ),
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              height: 180,
                             ),
                             SizedBox(height: 8),
                             Text(
                               movie.title,
                               style: TextStyle(
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.bold),
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             SizedBox(height: 4),
                             RatingBarIndicator(
-                              rating: movie.voteAverage / 2, // Assuming the rating is out of 10, scale it to 5
+                              rating: movie.voteAverage / 2,
                               itemBuilder: (context, index) => Icon(
                                 Icons.star,
                                 color: Colors.amber,
                               ),
                               itemCount: 5,
-                              itemSize: 20.0,
+                              itemSize: 15.0,
                               direction: Axis.horizontal,
                             ),
                           ],
                         ),
-                      );
-                    },
-                  );
-                }).toList(),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
 
-            // Top Rated Movies
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Top Rated',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
+              // Upcoming Movies
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Upcoming',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 220, // Increased height to accommodate image, title, and rating
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: topRatedMovies.length,
-                itemBuilder: (context, index) {
-                  final movie = topRatedMovies[index]; // Store movie object for easy access
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigate to the MovieDetailsPage when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MovieDetails(movie: movie),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: 120,
-                      margin: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+              SizedBox(
+                height: 220, // Increased height to accommodate image, title, and rating
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: upcomingMovies.length,
+                  itemBuilder: (context, index) {
+                    final movie = upcomingMovies[index]; // Store the movie object for easy access
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to the MovieDetailsPage when tapped
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MovieDetails(movie: movie),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 120,
+                        margin: EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                  ),
+                                  fit: BoxFit.cover,
                                 ),
-                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            movie.title,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
+                            SizedBox(height: 8),
+                            Text(
+                              movie.title,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 4),
-                          RatingBarIndicator(
-                            rating: movie.voteAverage / 2,
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
+                            SizedBox(height: 4),
+                            RatingBarIndicator(
+                              rating: movie.voteAverage / 2,
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 15.0,
+                              direction: Axis.horizontal,
                             ),
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            direction: Axis.horizontal,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-
-            // Upcoming Movies
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Upcoming',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 220, // Increased height to accommodate image, title, and rating
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: upcomingMovies.length,
-                itemBuilder: (context, index) {
-                  final movie = upcomingMovies[index]; // Store the movie object for easy access
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigate to the MovieDetailsPage when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MovieDetails(movie: movie),
+                          ],
                         ),
-                      );
-                    },
-                    child: Container(
-                      width: 120,
-                      margin: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+
+              // Popular Movies
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Popular',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 220, // Increased height to accommodate image, title, and rating
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: topRatedMovies.length,
+                  itemBuilder: (context, index) {
+                    final movie = topRatedMovies[index]; // Store the movie object for easy access
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to the MovieDetailsPage when tapped
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MovieDetails(movie: movie),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 120,
+                        margin: EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                  ),
+                                  fit: BoxFit.cover,
                                 ),
-                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            movie.title,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 4),
-                          RatingBarIndicator(
-                            rating: movie.voteAverage / 2,
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            direction: Axis.horizontal,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-
-            // Popular Movies
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Popular',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            SizedBox(
-              height: 220, // Increased height to accommodate image, title, and rating
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: topRatedMovies.length,
-                itemBuilder: (context, index) {
-                  final movie = topRatedMovies[index]; // Store the movie object for easy access
-                  return GestureDetector(
-                    onTap: () {
-                      // Navigate to the MovieDetailsPage when tapped
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MovieDetails(movie: movie),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: 120,
-                      margin: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                                ),
-                                fit: BoxFit.cover,
+                            SizedBox(height: 8),
+                            Text(
+                              movie.title,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            movie.title,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
+                            SizedBox(height: 4),
+                            RatingBarIndicator(
+                              rating: movie.voteAverage / 2,
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 15.0,
+                              direction: Axis.horizontal,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 4),
-                          RatingBarIndicator(
-                            rating: movie.voteAverage / 2,
-                            itemBuilder: (context, index) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            itemCount: 5,
-                            itemSize: 15.0,
-                            direction: Axis.horizontal,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
 
 
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const BottomNavWidget(),

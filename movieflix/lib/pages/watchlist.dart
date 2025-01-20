@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../widgets/bottomNavigationBar.dart';
 
 class Watchlist extends StatefulWidget {
   const Watchlist({super.key});
@@ -22,6 +22,20 @@ class _WatchlistState extends State<Watchlist> {
       overview: "A group of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
       rating: 8.6,
     ),
+
+    Movie(
+      title: "Interstellar",
+      posterPath: "https://picsum.photos/200/300", // Placeholder image URL
+      overview: "A group of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+      rating: 8.6,
+    ),
+
+    Movie(
+      title: "Interstellar",
+      posterPath: "https://picsum.photos/200/300", // Placeholder image URL
+      overview: "A group of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+      rating: 8.6,
+    ),
     // Add more movies as required
   ];
 
@@ -29,16 +43,26 @@ class _WatchlistState extends State<Watchlist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Watchlist'),
+        backgroundColor: Colors.grey,
+        title: const Text('Watchlist'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: watchlistMovies.length,
-          itemBuilder: (context, index) {
-            final movie = watchlistMovies[index];
-            return MovieCard(movie: movie);
-          },
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient:
+          //it has begin , end , stops , for controlling how the gradient color allighb
+          LinearGradient(
+            colors: [Color(0x02c6341a), Color(0xd6a80e0e)],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView.builder(
+            itemCount: watchlistMovies.length,
+            itemBuilder: (context, index) {
+              final movie = watchlistMovies[index];
+              return MovieCard(movie: movie);
+            },
+          ),
         ),
       ),
     );
@@ -70,7 +94,7 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5, // Adds a shadow to the card
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10), // Rounded corners
       ),
@@ -93,7 +117,7 @@ class MovieCard extends StatelessWidget {
                   ),
                 ),
                 // Icon on top-right corner
-                Positioned(
+                const Positioned(
                   top: 5,
                   right: 5,
                   child: Icon(
@@ -104,7 +128,7 @@ class MovieCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             // Movie Info
             Expanded(
               child: Column(
@@ -113,9 +137,10 @@ class MovieCard extends StatelessWidget {
                   // Movie Title
                   Text(
                     movie.title,
-                    style: TextStyle(
-                      fontSize: 18,
+                    style: const TextStyle(
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
+
                     ),
                   ),
                   SizedBox(height: 8),
@@ -163,4 +188,6 @@ class MovieCard extends StatelessWidget {
 
   }
 
+
 }
+
