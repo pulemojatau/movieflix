@@ -1,14 +1,15 @@
 # movieflix
-Practice project that leverage the IMDB API for movies, created for the sake of practicing with API
+Practice project that levarage the IMDB API for movies, created for the sake of practicing with API
 
-## Home page
-![My Image](https://github.com/pulemojatau/movieflix/blob/main/home.png)
+## Home Page
+![Home Page](https://github.com/pulemojatau/movieflix/blob/main/home.png)
 
-## Details page for movies
-![My Image](https://github.com/pulemojatau/movieflix/blob/main/details.pnh)
+## Details Page for Movies
+![Details Page](https://github.com/pulemojatau/movieflix/blob/main/details.png)
 
-# login page
-![My Image](https://github.com/pulemojatau/movieflix/blob/main/login.jpg)
+## Login Page
+![Login Page](https://github.com/pulemojatau/movieflix/blob/main/login.jpg)
 
-# Watch list page
-![My Image](https://github.com/pulemojatau/movieflix/blob/main/watchlist.png)
+## Watch List Page
+![Watch List Page](https://github.com/pulemojatau/movieflix/blob/main/watchlist.png)
+
